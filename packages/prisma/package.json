@@ -5,12 +5,24 @@
   "main": "index.js",
   "keywords": [],
   "author": "",
+  "scripts": {
+    "db:generate": "prisma generate",
+    "db:migrate": "prisma migrate dev",
+    "db:deploy": "prisma migrate deploy"
+  },
   "devDependencies": {
-    "@repo/typescript-config": "workspace:*"
+    "@repo/typescript-config": "workspace:*",
+    "@types/node": "^22.15.3",
+    "prisma": "^7.9.1"
   },
   "license": "ISC",
-  "type": "commonjs",
   "dependencies": {
-    "prisma": "^7.9.1"
+    "@prisma/adapter-pg": "^7.9.1",
+    "@prisma/client": "^7.9.1",
+    "dotenv": "^17.4.2",
+    "pg": "^8.23.0"
+  },
+  "exports": {
+    "./client" : "./src/index.ts"
   }
 }
