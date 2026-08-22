@@ -14,13 +14,21 @@ app.post("/signup", async (req, res) => {
   if (!username || !password) {
     return res.status(411).json({ message: "Missing credentials" });
   }
-  const newUser = await prisma.user.create({
-    data: {
-      username,
-      password,
-    },
-  });
-  res.json({ message: "user created", data: newUser });
+  try {
+    const newUser = await prisma.user.create({
+      data: {
+        username,
+        password,
+      },
+    });
+    return res.json({ message: "user created", data: newUser });
+  } catch (error: any) {
+    console.error("Signup error:", error);
+    if (error?.code === "P2002") {
+      return res.status(409).json({ message: "Username already exists" });
+    }
+    return res.status(500).json({ message: "Failed to create user", error: error?.message });
+  }
 });
 
 app.listen(3000, () => {
