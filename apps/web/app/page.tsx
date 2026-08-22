@@ -25,6 +25,8 @@ const ThemeImage = (props: Props) => {
 };
 
 export default async function Home() {
+  const users = await getUsers();
+
   return (
     <div className={styles.page}>
       <main className={styles.main}>
@@ -35,8 +37,8 @@ export default async function Home() {
           alt="Turborepo logo"
           width={180}
           height={38}
-          priority
         />
+        <div>Total Users: {users.length}</div>
         <ol>
           <li>
             Get started by editing <code>apps/web/app/page.tsx</code>
