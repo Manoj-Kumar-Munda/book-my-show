@@ -2,20 +2,19 @@
   "name": "@repo/db",
   "version": "1.0.0",
   "description": "",
-  "main": "./dist/src/index.js",
+  "main": "index.js",
   "type": "module",
   "scripts": {
-    "build": "tsc -b",
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate dev",
     "db:deploy": "prisma migrate deploy"
   },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
   "devDependencies": {
-    "@repo/typescript-config": "workspace:*",
-    "@types/node": "^22.15.3",
     "prisma": "^7.9.1"
   },
-  "license": "ISC",
   "dependencies": {
     "@prisma/adapter-pg": "^7.9.1",
     "@prisma/client": "^7.9.1",
@@ -23,13 +22,6 @@
     "pg": "^8.23.0"
   },
   "exports": {
-    "./client": {
-      "types": "./dist/src/index.d.ts",
-      "default": "./dist/src/index.js"
-    },
-    ".": {
-      "types": "./dist/src/index.d.ts",
-      "default": "./dist/src/index.js"
-    }
+    ".": "./src/index.ts"
   }
 }
