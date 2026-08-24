@@ -10,17 +10,22 @@ jobs:
     name: Deploying everything to the staging cluster
     runs-on: ubuntu-latest
     steps:
-      - name: Deploy via SSH
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@3.236.127.2 << 'EOF'
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@v1.2.2
+        with:
+          host: ${{ secrets.STAGING_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
             cd book-my-show
-            git pull
+            echo "Pulling latest code..."
+            git pull origin main
+            echo "Installing dependencies..."
             pnpm install
+            echo "Building applications..."
             pnpm run build
+            echo "Restarting PM2 processes"
             pm2 restart frontend-server
             pm2 restart http-server
             pm2 restart ws-server
-          EOF
+            echo "Deployment completed"
