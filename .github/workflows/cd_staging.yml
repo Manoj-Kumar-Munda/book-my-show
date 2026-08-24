@@ -16,7 +16,8 @@ jobs:
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@3.236.127.2 << 'EOF'
-            cd book-my-show/ && git pull
+            cd book-my-show
+            git pull
             pnpm install
             pnpm run build
             pm2 restart frontend-server
