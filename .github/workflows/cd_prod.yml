@@ -15,7 +15,7 @@ jobs:
           mkdir -p ~/.ssh
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa root@44.202.179.116 << 'EOF'
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@44.202.179.116 << 'EOF'
             cd book-my-show/ && git pull
             pnpm install
             pnpm run build
