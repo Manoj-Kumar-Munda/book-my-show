@@ -1,25 +1,31 @@
-name: Deploy to production
+name: Deploy to staging
 
 on:
   push:
     branches:
-      - production
+      - main
 
 jobs:
   redeploy_everything:
-    name: Deploying everything to the production cluster
+    name: Deploying everything to the staging cluster
     runs-on: ubuntu-latest
     steps:
-      - name: Deploy via SSH
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@44.202.179.116 << 'EOF'
-            cd book-my-show/ && git pull
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@v1.2.2
+        with:
+          host: ${{ secrets.PROD_HOST }}
+          username: ubuntu
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd book-my-show
+            echo "Pulling latest code..."
+            git pull origin main
+            echo "Installing dependencies..."
             pnpm install
+            echo "Building applications..."
             pnpm run build
+            echo "Restarting PM2 processes"
             pm2 restart frontend-server
             pm2 restart http-server
             pm2 restart ws-server
-          EOF
+            echo "Deployment completed"
