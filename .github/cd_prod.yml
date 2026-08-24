@@ -1,0 +1,19 @@
+name: Deploy to staging
+on:
+  push:
+    branches:
+      - production
+jobs:
+  redeploy_everything:
+    name: Deploying everything to the staging cluster
+    steps:
+      - name: SSH into server
+      - run: |
+          echo {{ secrets.SSH_PRIVATE_KEY }} &> ~/ssh_key
+          ssh -i ~/ssh_key root@44.202.179.116
+          cd book-my-show/ & git pull
+          pnpm install
+          pnpm run build
+          pm2 restart fe-server
+          pm2 restart http-server
+          pm2 restart ws-server
