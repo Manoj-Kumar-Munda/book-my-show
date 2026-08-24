@@ -34,6 +34,6 @@ app.post("/signup", async (req, res) => {
   }
 });
 
-app.listen(3000, () => {
+app.listen(4000, () => {
   console.log("HttpServer is listening on port 3000 ");
 });
