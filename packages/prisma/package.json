@@ -5,6 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
+    "build": "tsc -b",
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate dev",
     "db:deploy": "prisma migrate deploy"
@@ -14,7 +15,7 @@
   "license": "ISC",
   "devDependencies": {
     "prisma": "^7.9.1",
-    "@repo/typescript-config" : "workspace:*"
+    "@repo/typescript-config": "workspace:*"
   },
   "dependencies": {
     "@prisma/adapter-pg": "^7.9.1",
@@ -22,7 +23,10 @@
     "dotenv": "^17.4.2",
     "pg": "^8.23.0"
   },
-  "exports": {
-    ".": "./src/index.ts"
+    "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
   }
 }

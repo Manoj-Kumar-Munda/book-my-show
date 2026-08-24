@@ -1,5 +1,6 @@
 import express from "express";
 import { prisma } from "@repo/db";
+
 const app = express();
 
 app.use(express.json());
@@ -27,10 +28,12 @@ app.post("/signup", async (req, res) => {
     if (error?.code === "P2002") {
       return res.status(409).json({ message: "Username already exists" });
     }
-    return res.status(500).json({ message: "Failed to create user", error: error?.message });
+    return res
+      .status(500)
+      .json({ message: "Failed to create user", error: error?.message });
   }
 });
 
-app.listen(3000, () => {
-  console.log("HttpServer is listening on port 3000");
+app.listen(4000, () => {
+  console.log("HttpServer is listening on port 3000 ");
 });
